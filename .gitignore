@@ -73,3 +73,17 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+# Ignore google-services.json
+android/app/google-services.json
+
+# Ignore all_code.txt
+all_code.txt
+
+# Ignore copy.js
+copy.js
+.env
+android/app/google-services.json
+copy.js
+copy.js

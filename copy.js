@@ -55,5 +55,5 @@ const copyAllCode = () => {
     console.log(`✅ Code copied successfully into "${OUTPUT_FILE}" (excluding ignored folders)`);
 };
 
-// Run the script
+// Run the scriptd
 copyAllCode();
