@@ -56,7 +56,7 @@ const TaskListScreen: React.FC<Props> = ({ navigation }) => {
         style={globalStyles.swipeDeleteContainer}
         onPress={() => confirmDeleteTask(task)}
       >
-        <MaterialIcons name="delete" size={28} color="white" />
+        <Text style={globalStyles.swipeDeleteText}>Delete</Text>
       </TouchableOpacity>
     );
   };

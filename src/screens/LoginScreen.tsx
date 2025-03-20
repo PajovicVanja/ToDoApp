@@ -12,7 +12,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Check authentication state and redirect if logged in
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (user) {
@@ -22,7 +21,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // Handle Email/Password Login
   const handleEmailPasswordLogin = async () => {
     setLoading(true);
     try {
