@@ -1,6 +1,6 @@
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TaskProvider } from './src/context/TaskContext'; // Ensure named import
+import { TaskProvider } from './src/context/TaskContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import { initializeApp, getApps } from '@react-native-firebase/app';
 
