@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/taskTypes';
+import { TasksStackParamList } from '../types/taskTypes';
 import globalStyles from '../styles/globalStyles';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'TaskDetails'>;
+type Props = NativeStackScreenProps<TasksStackParamList, 'TaskDetails'>;
 
 const TaskDetailsScreen: React.FC<Props> = ({ route }) => {
   const { task } = route.params;

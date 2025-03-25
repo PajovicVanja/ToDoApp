@@ -1,6 +1,5 @@
-// src/types/taskTypes.ts
 export interface Task {
-  id: string; // Changed from number to string
+  id: string;
   title: string;
   description: string;
   category: string;
@@ -14,10 +13,18 @@ export type SerializedTask = Omit<Task, 'dueDate' | 'reminderDate'> & {
   reminderDate: string;
 };
 
-// Add a Login route to the RootStackParamList
 export type RootStackParamList = {
   Login: undefined;
+  MainTabs: undefined;
+};
+
+export type TasksStackParamList = {
   TaskList: undefined;
   TaskDetails: { task: SerializedTask };
   AddTask: undefined;
+};
+
+export type BottomTabParamList = {
+  Tasks: undefined;
+  Settings: undefined;
 };

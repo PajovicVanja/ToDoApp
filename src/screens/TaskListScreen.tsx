@@ -1,15 +1,14 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import auth from '@react-native-firebase/auth';
-import { RootStackParamList, Task } from '../types/taskTypes';
+import { getAuth } from '@react-native-firebase/auth';
+import { TasksStackParamList, Task } from '../types/taskTypes';
 import TaskItem from '../components/TaskItem';
 import globalStyles from '../styles/globalStyles';
 import { Swipeable } from 'react-native-gesture-handler';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useTaskContext } from '../context/TaskContext';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'TaskList'>;
+type Props = NativeStackScreenProps<TasksStackParamList, 'TaskList'>;
 
 const TaskListScreen: React.FC<Props> = ({ navigation }) => {
   const { tasks, deleteTask } = useTaskContext();
@@ -26,8 +25,12 @@ const TaskListScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleLogout = async () => {
     try {
-      await auth().signOut();
-      navigation.replace('Login');
+      await getAuth().signOut();
+      // Reset the parent's navigation state to show the Login screen
+      navigation.getParent()?.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
     } catch (error) {
       console.error('Logout Error:', error);
     }
@@ -88,7 +91,6 @@ const TaskListScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={globalStyles.emptyText}>No tasks added yet.</Text>
         }
       />
-      {/* Floating Add Task Button */}
       <TouchableOpacity
         style={{
           position: 'absolute',

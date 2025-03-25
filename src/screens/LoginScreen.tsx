@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, FirebaseAuthTypes } from '@react-native-firebase/auth';import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/taskTypes';
+import { getApp } from '@react-native-firebase/app';
 import globalStyles from '../styles/globalStyles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -11,20 +11,22 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const authInstance = getAuth(getApp());
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(user => {
+    const unsubscribe = onAuthStateChanged(authInstance, (user: FirebaseAuthTypes.User | null) => {
       if (user) {
-        navigation.replace('TaskList');
+        // Navigate to the MainTabs (which contains Tasks and Settings)
+        navigation.replace('MainTabs');
       }
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, authInstance]);
 
   const handleEmailPasswordLogin = async () => {
     setLoading(true);
     try {
-      await auth().signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(authInstance, email, password);
       Alert.alert("Success", "Logged in successfully!");
     } catch (error: any) {
       Alert.alert("Login Error", error.message);

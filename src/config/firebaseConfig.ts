@@ -1,4 +1,3 @@
-// src/config/firebaseConfig.ts
 import Config from 'react-native-config';
 
 const firebaseConfig = {

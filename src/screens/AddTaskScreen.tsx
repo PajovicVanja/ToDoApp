@@ -4,10 +4,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import { useTaskContext } from '../context/TaskContext';
-import { RootStackParamList } from '../types/taskTypes';
+import { TasksStackParamList } from '../types/taskTypes';
 import globalStyles from '../styles/globalStyles';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'AddTask'>;
+type Props = NativeStackScreenProps<TasksStackParamList, 'AddTask'>;
 
 const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
   const { addTask } = useTaskContext();
@@ -37,7 +37,6 @@ const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
     await addTask(newTask);
     navigation.goBack();
   };
-  
 
   return (
     <View style={globalStyles.container}>
