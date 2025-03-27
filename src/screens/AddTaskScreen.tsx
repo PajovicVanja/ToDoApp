@@ -1,3 +1,5 @@
+import { launchImageLibrary } from 'react-native-image-picker';
+import MlkitOcr from 'react-native-mlkit-ocr';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,12 +22,37 @@ const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
   const [openDue, setOpenDue] = useState<boolean>(false);
   const [openReminder, setOpenReminder] = useState<boolean>(false);
 
+  // Function to launch image picker and process text using ML Kit OCR
+  const handleScanText = async () => {
+    try {
+      const result = await launchImageLibrary({ mediaType: 'photo' });
+      if (result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        if (!uri) {
+          Alert.alert('Error', 'No image URI found.');
+          return;
+        }
+        // Process the image using ML Kit OCR
+        const textBlocks = await MlkitOcr.detectFromFile(uri);
+        // Combine recognized text blocks into one string
+        const recognizedText = textBlocks.map(block => block.text).join('\n');
+        console.log('Recognized text:', recognizedText);
+        // Update description field with the recognized text
+        setDescription(recognizedText);
+      }
+    } catch (error) {
+      console.log('Text recognition error:', error);
+      Alert.alert('Error', 'Failed to recognize text from the image.');
+    }
+  };
+  
+
   const handleAddTask = async () => {
     if (!title.trim()) {
       Alert.alert('Please enter a task name');
       return;
     }
-  
+
     const newTask = {
       title,
       description,
@@ -33,7 +60,7 @@ const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
       dueDate,
       reminderDate,
     };
-  
+
     await addTask(newTask);
     navigation.goBack();
   };
@@ -48,7 +75,7 @@ const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
         onChangeText={setTitle}
         style={globalStyles.input}
       />
-      
+
       <TextInput
         placeholder="Task Description"
         value={description}
@@ -56,6 +83,11 @@ const AddTaskScreen: React.FC<Props> = ({ navigation }) => {
         style={[globalStyles.input, { height: 80 }]}
         multiline
       />
+
+      {/* Button to trigger text recognition */}
+      <TouchableOpacity style={globalStyles.button} onPress={handleScanText}>
+        <Text style={globalStyles.buttonText}>Scan Text</Text>
+      </TouchableOpacity>
 
       <Text style={globalStyles.label}>Category:</Text>
       <View style={globalStyles.pickerContainer}>

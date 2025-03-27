@@ -8,7 +8,12 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const MainTabs: React.FC = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarIcon: () => null,
+      }}
+    >
+      
       <Tab.Screen name="Tasks" component={TasksStack} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
